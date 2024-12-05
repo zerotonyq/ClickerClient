@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 130112d575d94819870f0889b3aaacaf, type: 3}
+  m_Name: DefaultAdminUIConfig
+  m_EditorClassIdentifier: 
+  canvasReference:
+    m_AssetGUID: f88f3b6f63bec7446a55722ae3d9cfcc
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  miniGamesWindow:
+    m_AssetGUID: ee4b11d9a97a13a47bcbea164619d4ce
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  leaguesWindow:
+    m_AssetGUID: 6c8c403e4542f7f4fb1d1f4498c61892
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  usersWindow:
+    m_AssetGUID: 238df561137ce1b4cb456de381782c3f
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  lobbiesWindow:
+    m_AssetGUID: bb9ab003bdbc41d4cb97725d694de559
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  miniGamesWindowConfig: {fileID: 11400000, guid: 3724c01210b03a54fa98a631a54bdfc0, type: 2}
+  leaguesWindowConfig: {fileID: 11400000, guid: 5c18278f466cd0b4986af45785da91a1, type: 2}
+  usersWindowConfig: {fileID: 11400000, guid: 6e18cd54068d37f44a3fede01d3a635d, type: 2}
+  lobbiesWindowConfig: {fileID: 11400000, guid: e5e253daea25cc641aa2c2b519e971e1, type: 2}
+  miniGamesWindowOpenButton:
+    m_AssetGUID: 3a96a843e498a2048abbe0d0315c8d72
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  leaguesWindowOpenButton:
+    m_AssetGUID: 23d82c22dfcc7c54c804059a4e8db772
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  usersWindowOpenButton:
+    m_AssetGUID: 349621b1992469a449308783256e1d32
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  lobbiesWindowOpenButton:
+    m_AssetGUID: 3035925dcc7d78f478d81ee2fff17f92
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
