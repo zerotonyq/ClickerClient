@@ -5,6 +5,6 @@ namespace WebRequests.Contracts.MiniGames
 {
     public class GetMiniGamesByIdResponse : WebResponseDto
     {
-        public List<string> Names { get; set; }
+        public IEnumerable<MiniGameDto> MiniGameDtos { get; set; }
     }
 }

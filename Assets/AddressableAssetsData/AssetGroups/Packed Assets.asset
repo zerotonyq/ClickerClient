@@ -35,6 +35,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c02a2338256ab754d9dc836e914eef2b
+    m_Address: SimpleClickerMiniGame
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dd4995bfef791a041bc2072fd81bd793
     m_Address: AuthCanvas
     m_ReadOnly: 0

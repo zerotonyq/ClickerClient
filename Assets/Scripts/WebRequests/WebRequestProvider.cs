@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using EventBus.Auth;
+using EventBus.Subscribers.Notifications;
 using JetBrains.Annotations;
 using JwtTokens;
 using Newtonsoft.Json;
@@ -33,7 +34,7 @@ namespace WebRequests
             where TRes : WebResponseDto, new()
         {
             var requestString = JsonConvert.SerializeObject(webRequestDto, SerializerSettings);
-            
+
             using var webRequest =
                 UnityWebRequest.Post(url, requestString,
                     contentType: "application/json");
@@ -42,9 +43,12 @@ namespace WebRequests
                 webRequest.SetRequestHeader("Authorization", "Bearer " + JwtTokenProvider.AccessToken);
 
             var sentRequest = await Send(webRequest);
-            
+
             if (sentRequest.responseCode == 200)
+            {
+                Debug.Log(sentRequest.downloadHandler.text);
                 return JsonConvert.DeserializeObject<TRes>(sentRequest.downloadHandler.text, SerializerSettings);
+            }
 
             if (secondRetry)
             {
@@ -86,7 +90,7 @@ namespace WebRequests
 
             JwtTokenProvider.SetTokens(renewResponse.AccessToken,
                 renewResponse.RefreshToken);
-            
+
             Debug.Log("new tokens recieved");
         }
 
@@ -100,7 +104,10 @@ namespace WebRequests
             }
             catch (UnityWebRequestException e)
             {
-                Debug.LogError("Unregistered " + e.Message + " \n" + e.StackTrace);
+                Debug.LogError("send error" + e.Message + " \n" + e.StackTrace);
+                
+                EventBus.EventBus.RaiseEvent<INotificationRequestSubscriber>(sub =>
+                    sub.HandleNotificationRequest(e.Message));
             }
             catch (Exception e)
             {

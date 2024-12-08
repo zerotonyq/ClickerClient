@@ -13,10 +13,10 @@ namespace UI.Controllers.AdminUIController.Config
         public AssetReferenceGameObject usersWindow;
         public AssetReferenceGameObject lobbiesWindow;
         
-        public TableConfig miniGamesWindowConfig;
-        public TableConfig leaguesWindowConfig;
-        public TableConfig usersWindowConfig;
-        public TableConfig lobbiesWindowConfig;
+        public WebRequestTableConfig miniGamesWindowConfig;
+        public WebRequestTableConfig leaguesWindowConfig;
+        public WebRequestTableConfig usersWindowConfig;
+        public WebRequestTableConfig lobbiesWindowConfig;
 
         public AssetReferenceGameObject miniGamesWindowOpenButton;
         public AssetReferenceGameObject leaguesWindowOpenButton;

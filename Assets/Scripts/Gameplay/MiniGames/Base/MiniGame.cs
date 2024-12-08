@@ -15,9 +15,9 @@ namespace Gameplay.MiniGames.Base
     }
     public abstract class MiniGame : MonoBehaviour
     {
-        [SerializeField] private int performPoints;
+        [SerializeField] protected int performPoints;
 
-        [SerializeField] private List<Rule> rules;
+        [SerializeField] protected List<Rule> rules = new();
         
         private MiniGameManager _manager;
         
@@ -28,8 +28,6 @@ namespace Gameplay.MiniGames.Base
             _manager = manager;
             
             await PrepareMiniGame();
-            
-            SetState(MiniGameState.Ready);
         }
         
 
@@ -39,7 +37,7 @@ namespace Gameplay.MiniGames.Base
         
         public abstract void End();
         
-        private bool CheckRules() => rules.All(rule => rule.CheckPerformance());
+        private bool CheckRules() => rules.Count == 0 || rules.All(rule => rule.CheckPerformance());
         
         private void SendPointsToManager()
         {
@@ -49,17 +47,7 @@ namespace Gameplay.MiniGames.Base
             _manager.AddPoints(performPoints);
         }
          
-        private void SetState(MiniGameState state)
-        {
-            if (state == _state)
-                return;
-            
-            SetStateInternal(state);
-
-            _state = state;
-        }
-
-        protected abstract void SetStateInternal(MiniGameState state);
+        protected void SetState(MiniGameState state) => _state = state;
         
         public void Process()
         {

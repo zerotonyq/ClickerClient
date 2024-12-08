@@ -6,6 +6,7 @@ using EventBus.Subscribers.Roles;
 using UI.Controllers.AdminUIController.Config;
 using UI.Elements;
 using UI.Elements.Table.Base;
+using UI.Elements.Tables.Base;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Zenject;
@@ -32,10 +33,10 @@ namespace UI.Controllers.AdminUIController
         private AdminUIConfig _config;
         private Transform _parent;
 
-        private TableEditorWindow _leaguesWindow;
-        private TableEditorWindow _miniGamesWindow;
-        private TableEditorWindow _usersWindow;
-        private TableEditorWindow _lobbiesWindow;
+        private WebRequestTableWindow _leaguesWindow;
+        private WebRequestTableWindow _miniGamesWindow;
+        private WebRequestTableWindow _usersWindow;
+        private WebRequestTableWindow _lobbiesWindow;
 
         private SimpleAnimatedButton _leaguesWindowOpenButton;
         private SimpleAnimatedButton _miniGamesWindowOpenButton;
@@ -59,13 +60,13 @@ namespace UI.Controllers.AdminUIController
             var canvasTransform = _mainCanvas.transform;
 
             _leaguesWindow = (await Addressables.InstantiateAsync(config.leaguesWindow, canvasTransform))
-                .GetComponent<TableEditorWindow>();
+                .GetComponent<WebRequestTableWindow>();
             _usersWindow = (await Addressables.InstantiateAsync(config.usersWindow, canvasTransform))
-                .GetComponent<TableEditorWindow>();
+                .GetComponent<WebRequestTableWindow>();
             _lobbiesWindow = (await Addressables.InstantiateAsync(config.lobbiesWindow, canvasTransform))
-                .GetComponent<TableEditorWindow>();
+                .GetComponent<WebRequestTableWindow>();
             _miniGamesWindow = (await Addressables.InstantiateAsync(config.miniGamesWindow, canvasTransform))
-                .GetComponent<TableEditorWindow>();
+                .GetComponent<WebRequestTableWindow>();
 
             await _leaguesWindow.Initialize(config.leaguesWindowConfig);
             await _miniGamesWindow.Initialize(config.miniGamesWindowConfig);

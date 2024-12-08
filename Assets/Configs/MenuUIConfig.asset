@@ -36,3 +36,10 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+  lobbiesWindow:
+    m_AssetGUID: bb9ab003bdbc41d4cb97725d694de559
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  lobbiesConfig: {fileID: 11400000, guid: 65988ff0609750a489a18cdace81ba59, type: 2}

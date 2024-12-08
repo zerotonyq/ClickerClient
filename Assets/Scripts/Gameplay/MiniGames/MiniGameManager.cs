@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using EventBus.Subscribers.Gameplay;
+using EventBus.Subscribers.MenuUI;
+using EventBus.Subscribers.MenuUI.Auth;
 using Gameplay.MiniGames.Base;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -13,21 +15,24 @@ using Zenject;
 
 namespace Gameplay.MiniGames
 {
-    public class MiniGameManager : IMiniGameStartSubscriber, IDisposable
+    public class MiniGameManager :
+        IAuthSuccessfullySubscriber,
+        IMiniGameStartSubscriber,
+        IDisposable
     {
         private readonly Dictionary<string, GameObject> _miniGamesPrefabs = new();
 
         private MiniGame _currentMiniGame;
 
-        private List<string> _miniGamesNames;
+        private List<string> _miniGamesNames = new();
 
         private int _currentMiniGameIndex;
 
         [Inject]
         public async UniTaskVoid Initialize()
         {
+            EventBus.EventBus.SubscribeToEvent<IAuthSuccessfullySubscriber>(this);
             EventBus.EventBus.SubscribeToEvent<IMiniGameStartSubscriber>(this);
-            await GetMiniGames();
         }
 
         private int Points { get; set; }
@@ -37,23 +42,39 @@ namespace Gameplay.MiniGames
             Points += points;
         }
 
-        public void Dispose() => EventBus.EventBus.UnsubscribeFromEvent<IMiniGameStartSubscriber>(this);
-
-        public async void HandleMiniGameStart()
+        public void Dispose()
         {
-            UpdateCurrentMiniGameIndex();
+            EventBus.EventBus.UnsubscribeFromEvent<IAuthSuccessfullySubscriber>(this);
+            EventBus.EventBus.UnsubscribeFromEvent<IMiniGameStartSubscriber>(this);
+        }
 
-            var miniGameName = _miniGamesNames[_currentMiniGameIndex];
+        public async Task HandleMiniGameStart()
+        {
+            if (_miniGamesNames.Count == 0)
+            {
+                Debug.Log("there is no mini games");
+                return;
+            }
 
-            _currentMiniGame.End();
+            foreach (var na in _miniGamesNames)
+            {
+                Debug.Log(na);
+            }
+            if (_currentMiniGame)
+            {
+                _currentMiniGame.End();
 
-            Addressables.ReleaseInstance(_currentMiniGame.gameObject);
+                Addressables.ReleaseInstance(_currentMiniGame.gameObject);
+            }
 
-            _currentMiniGame = (await Addressables.InstantiateAsync(miniGameName)).GetComponent<MiniGame>();
+            _currentMiniGame = (await Addressables.InstantiateAsync(_miniGamesNames[_currentMiniGameIndex]))
+                .GetComponent<MiniGame>();
 
             await _currentMiniGame.Initialize(this);
 
             _currentMiniGame.Start();
+            
+            UpdateCurrentMiniGameIndex();
         }
 
         private void UpdateCurrentMiniGameIndex()
@@ -62,24 +83,6 @@ namespace Gameplay.MiniGames
                 _currentMiniGameIndex = 0;
 
             ++_currentMiniGameIndex;
-        }
-
-        private async Task<List<string>> GetMiniGamesNames()
-        {
-            var result =
-                await WebRequestProvider.SendJsonRequest<GetMiniGamesByIdRequest, GetMiniGamesByIdResponse>(
-                    ApiPaths.USERS_GETMINIGAMESBYID,
-                    new GetMiniGamesByIdRequest() { Id = 1 });
-
-            if (result == null)
-                return null;
-
-            if (!await ValidateAddressables(result.Names))
-                return null;
-
-            _miniGamesNames = result.Names;
-
-            return result.Names;
         }
 
         private async Task<bool> ValidateAddressables(List<string> names)
@@ -102,6 +105,37 @@ namespace Gameplay.MiniGames
 
                 _miniGamesPrefabs.TryAdd(name, miniGame);
             }
+        }
+
+        private async Task<List<string>> GetMiniGamesNames()
+        {
+            var result =
+                await WebRequestProvider.SendJsonRequest<GetMiniGamesByIdRequest, GetMiniGamesByIdResponse>(
+                    ApiPaths.USERS_MINIGAMES_GETMINIGAMEINFOS,
+                    new GetMiniGamesByIdRequest());
+
+            if (result == null)
+            {
+                Debug.Log("error response null get mini games");
+                return null;
+            }
+
+            var names = result.MiniGameDtos.Select(dto => dto.AddressableName).ToList();
+            
+            if (!await ValidateAddressables(names))
+            {
+                Debug.Log("error addressables validation");
+                return null;
+            }
+
+            _miniGamesNames = names;
+
+            return _miniGamesNames;
+        }
+
+        public async Task HandleAuthSuccess(AuthResult result)
+        {
+            await GetMiniGames();
         }
     }
 }
