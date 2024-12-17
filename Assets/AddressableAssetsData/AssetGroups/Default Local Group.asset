@@ -15,78 +15,53 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 92926c6f3576a624bb42aa8978106644
   m_SerializeEntries:
-  - m_GUID: 20ad3dac724348d489675dd9cd2b3931
-    m_Address: usersExitButton
+  - m_GUID: 15d32cf25b801164f8aeeafcfe63b0b8
+    m_Address: SprintCanvas
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 238df561137ce1b4cb456de381782c3f
-    m_Address: usersWindow
+  - m_GUID: 1cc205a663397714e8c7675b961c067e
+    m_Address: Assets/Prefabs/Tables/Rows/Admin/AdminMiniGamesRow.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 23d82c22dfcc7c54c804059a4e8db772
-    m_Address: leaguesOpenButton
+  - m_GUID: 70a2587ae00c8b9498ede83f70ec9c63
+    m_Address: Assets/Prefabs/Tables/Rows/Admin/AdminLobbiesRow.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3035925dcc7d78f478d81ee2fff17f92
-    m_Address: lobbiesOpenButton
+  - m_GUID: 7c87d01461aadde45ad4d4b8635b492e
+    m_Address: UserPoints
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 349621b1992469a449308783256e1d32
-    m_Address: usersOpenButton
+  - m_GUID: 97708034adb5c704e926b571edc9014b
+    m_Address: NotificationsCanvas
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3a96a843e498a2048abbe0d0315c8d72
-    m_Address: miniGamesOpenButton
+  - m_GUID: b663c41ce0e10b74ca2c1e90e4454169
+    m_Address: Assets/Prefabs/Tables/Rows/Admin/AdminLeaguesRow.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6c8c403e4542f7f4fb1d1f4498c61892
-    m_Address: leaguesWindow
+  - m_GUID: c1ced7c35778f224ca0807cc490eca4b
+    m_Address: LobbiesCanvas
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7a9543f8a99036149b35adb0f2af93f6
-    m_Address: UserLobbiesRow
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bb9ab003bdbc41d4cb97725d694de559
-    m_Address: lobbiesWindow
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bfd3f0e263e2629499d1e8d3b21e2d27
-    m_Address: Row
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c2f5eeace0720f64da4e6e5bb69b6f37
-    m_Address: exitButton
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ee4b11d9a97a13a47bcbea164619d4ce
-    m_Address: miniGamesWindow
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f3fc10fbdcbd8ac4ca4ea9c4fc321cc3
-    m_Address: leaguesExitButton
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f88f3b6f63bec7446a55722ae3d9cfcc
+  - m_GUID: d38d00785f44c934abdfd59166d2f68a
     m_Address: AdminCanvas
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fb6b37ca1e93c994e99b4f1f20b8861a
-    m_Address: miniGamesExitButton
+  - m_GUID: d5df631b293635a4cbccbaff01f2cb6b
+    m_Address: Assets/Prefabs/Tables/Rows/Admin/AdminUsersRow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ec7c48bfecab00746a0603cc627071d0
+    m_Address: PointsCanvas
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

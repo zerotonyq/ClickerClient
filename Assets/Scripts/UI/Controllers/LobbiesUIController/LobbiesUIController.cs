@@ -1,72 +1,111 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using EventBus.Subscribers.MenuUI.Auth;
-using UI.Controllers.LobbiesUIController.Config;
+using EventBus.Subscribers.GameUI;
+using EventBus.Subscribers.Lobbies;
+using Loading;
+using UI.Base;
+using UI.Controllers.LobbiesUIController.CanvasContainer;
 using UI.Elements;
 using UI.Elements.Table;
+using UI.Elements.Tables.Lobbies;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using Utils.EventBus.Subscribers.Loading;
+using Utils.EventBus.Subscribers.Lobbies;
+using Utils.EventBus.Subscribers.MenuUI.Auth;
 using Zenject;
 
 namespace UI.Controllers.LobbiesUIController
 {
     public class LobbiesUIController :
+        UIController,
+        ILoadingEntity,
         IAuthSuccessfullySubscriber,
-        IDisposable
+        IAuthUIRequestedSubscriber,
+        IInitialLoadingEndedSubscriber,
+        IMainScreenRequestSubscriber,
+        IEnterLobbySuccessSubscriber,
+        IDisposable, IExitLobbyRequestSubscriber
     {
-        private Canvas _canvas;
-
         private LobbiesTableWindow _lobbiesTableWindow;
 
         private SimpleAnimatedButton _getLobbiesButton;
-        
+
+        public Action Loaded { get; set; }
+
         [Inject]
-        public async UniTaskVoid Initialize(LobbiesControllerUIConfig config, Transform parent)
+        public override async UniTaskVoid Initialize(AssetReferenceGameObject canvasReference, Transform parent)
         {
             EventBus.EventBus.SubscribeToEvent<IAuthSuccessfullySubscriber>(this);
+            EventBus.EventBus.SubscribeToEvent<IInitialLoadingEndedSubscriber>(this);
+            EventBus.EventBus.SubscribeToEvent<IMainScreenRequestSubscriber>(this);
+            EventBus.EventBus.SubscribeToEvent<IEnterLobbySuccessSubscriber>(this);
+            EventBus.EventBus.SubscribeToEvent<IExitLobbyRequestSubscriber>(this);
 
-            await InstantiateObjects(config, parent);
-        }
+            Canvas = (await Addressables.InstantiateAsync(canvasReference, parent)).GetComponent<Canvas>();
 
-        private async Task InstantiateObjects(LobbiesControllerUIConfig config, Transform parent)
-        {
-            _canvas = (await Addressables.InstantiateAsync(config.canvasReference, parent))
-                .GetComponent<Canvas>();
+            var canvasContainer = Canvas.GetComponent<LobbiesUICanvasContainer>();
+
+            _lobbiesTableWindow = canvasContainer.lobbiesTableWindow;
+            _getLobbiesButton = canvasContainer.getLobbiesButton;
             
-            _lobbiesTableWindow =
-                (await Addressables.InstantiateAsync(config.lobbiesTablePrefabReference, _canvas.transform))
-                .GetComponent<LobbiesTableWindow>();
-            
-            _getLobbiesButton =
-                (await Addressables.InstantiateAsync(config.openLobbiesWindowButtonReference, _canvas.transform))
-                .GetComponent<SimpleAnimatedButton>();
+            _lobbiesTableWindow.Initialize();
 
-
-            await _lobbiesTableWindow.Initialize(config.lobbiesSearchWindowConfig);
-            _lobbiesTableWindow.gameObject.SetActive(false);
-            
             _getLobbiesButton.OnClick.AddListener(() =>
             {
                 _getLobbiesButton.gameObject.SetActive(false);
                 _lobbiesTableWindow.gameObject.SetActive(true);
                 _lobbiesTableWindow.Activate();
             });
+
+            Loaded?.Invoke();
         }
 
-        public async Task HandleAuthSuccess(AuthResult result)
+        public Task HandleAuthSuccess(AuthResult result)
         {
-            if (!_getLobbiesButton || !_lobbiesTableWindow)
-                return;
+            ToggleVisibility(result.Success);
+            return Task.CompletedTask;
+        }
 
-            _getLobbiesButton.gameObject.SetActive(result.Success);
-            _lobbiesTableWindow.gameObject.SetActive(result.Success);
+        public void HandleAuthUIRequest()
+        {
+            ToggleVisibility(false);
+        }
+        
+        public Task HandleInitialLoadingEnded()
+        {
+            ToggleVisibility(true);
+            return Task.CompletedTask;
+        }
+
+        public void HandleMainScreenRequest() => ToggleVisibility(true);
+
+        public Task HandleEnterLobby(int lobbyId)
+        {
+            ToggleVisibility(false);
+            _lobbiesTableWindow.Deactivate();
+            return Task.CompletedTask;
+        }
+        
+        public Task HandleExitLobbyRequest()
+        {
+            ToggleVisibility(true);
+            return Task.CompletedTask;
+        }
+        
+        protected override void ToggleVisibility(bool isActive)
+        {
+            _getLobbiesButton.gameObject.SetActive(isActive);
         }
 
         public void Dispose()
         {
-            _getLobbiesButton?.Dispose();
             EventBus.EventBus.UnsubscribeFromEvent<IAuthSuccessfullySubscriber>(this);
+            EventBus.EventBus.UnsubscribeFromEvent<IInitialLoadingEndedSubscriber>(this);
+            EventBus.EventBus.UnsubscribeFromEvent<IMainScreenRequestSubscriber>(this);
+            EventBus.EventBus.UnsubscribeFromEvent<IEnterLobbySuccessSubscriber>(this);
+            EventBus.EventBus.UnsubscribeFromEvent<IExitLobbyRequestSubscriber>(this);
         }
     }
 }

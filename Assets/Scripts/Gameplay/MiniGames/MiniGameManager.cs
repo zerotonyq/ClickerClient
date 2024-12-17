@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using EventBus.Subscribers.Gameplay;
-using EventBus.Subscribers.MenuUI;
-using EventBus.Subscribers.MenuUI.Auth;
+using EventBus.Subscribers.Lobbies;
 using Gameplay.MiniGames.Base;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using Utils.EventBus.Subscribers.Gameplay;
+using Utils.EventBus.Subscribers.Lobbies;
+using Utils.EventBus.Subscribers.MenuUI.Auth;
 using WebRequests;
 using WebRequests.Contracts.MiniGames;
 using Zenject;
@@ -17,6 +19,8 @@ namespace Gameplay.MiniGames
 {
     public class MiniGameManager :
         IAuthSuccessfullySubscriber,
+        IEnterLobbySuccessSubscriber,
+        IExitLobbyRequestSubscriber,
         IMiniGameStartSubscriber,
         IDisposable
     {
@@ -32,23 +36,17 @@ namespace Gameplay.MiniGames
         public async UniTaskVoid Initialize()
         {
             EventBus.EventBus.SubscribeToEvent<IAuthSuccessfullySubscriber>(this);
+            EventBus.EventBus.SubscribeToEvent<IEnterLobbySuccessSubscriber>(this);
+            EventBus.EventBus.SubscribeToEvent<IExitLobbyRequestSubscriber>(this);
             EventBus.EventBus.SubscribeToEvent<IMiniGameStartSubscriber>(this);
         }
 
-        private int Points { get; set; }
-
         public void AddPoints(int points)
         {
-            Points += points;
+            EventBus.EventBus.RaiseEvent<IPointsObtainedSubscriber>(sub => sub.HandlePointsObtained(points));
         }
 
-        public void Dispose()
-        {
-            EventBus.EventBus.UnsubscribeFromEvent<IAuthSuccessfullySubscriber>(this);
-            EventBus.EventBus.UnsubscribeFromEvent<IMiniGameStartSubscriber>(this);
-        }
-
-        public async Task HandleMiniGameStart()
+        public async Task HandleEnterLobby(int lobbyId)
         {
             if (_miniGamesNames.Count == 0)
             {
@@ -56,16 +54,13 @@ namespace Gameplay.MiniGames
                 return;
             }
 
-            foreach (var na in _miniGamesNames)
-            {
-                Debug.Log(na);
-            }
-            if (_currentMiniGame)
-            {
-                _currentMiniGame.End();
+            _currentMiniGameIndex = 0;
+            await LoadNext();
+        }
 
-                Addressables.ReleaseInstance(_currentMiniGame.gameObject);
-            }
+        private async Task LoadNext()
+        {
+            TryUnloadCurrent();
 
             _currentMiniGame = (await Addressables.InstantiateAsync(_miniGamesNames[_currentMiniGameIndex]))
                 .GetComponent<MiniGame>();
@@ -73,23 +68,40 @@ namespace Gameplay.MiniGames
             await _currentMiniGame.Initialize(this);
 
             _currentMiniGame.Start();
-            
+
             UpdateCurrentMiniGameIndex();
+        }
+
+        private void TryUnloadCurrent()
+        {
+            if (!_currentMiniGame)
+                return;
+
+            _currentMiniGame.End();
+
+            Addressables.ReleaseInstance(_currentMiniGame.gameObject);
         }
 
         private void UpdateCurrentMiniGameIndex()
         {
-            if (_currentMiniGameIndex >= _miniGamesNames.Count)
+            if (_currentMiniGameIndex >= _miniGamesNames.Count || _miniGamesNames.Count == 1)
+            {
                 _currentMiniGameIndex = 0;
+                return;
+            }
 
             ++_currentMiniGameIndex;
         }
 
-        private async Task<bool> ValidateAddressables(List<string> names)
+        public async Task HandleAuthSuccess(AuthResult result)
         {
-            var resourceLocations = await Addressables.LoadResourceLocationsAsync(names);
+            if (!result.Success)
+            {
+                Debug.Log("Cannot get mini game's names because of auth error");
+                return;
+            }
 
-            return resourceLocations.All(location => names.Contains(location.PrimaryKey));
+            await GetMiniGames();
         }
 
         private async Task GetMiniGames()
@@ -121,7 +133,7 @@ namespace Gameplay.MiniGames
             }
 
             var names = result.MiniGameDtos.Select(dto => dto.AddressableName).ToList();
-            
+
             if (!await ValidateAddressables(names))
             {
                 Debug.Log("error addressables validation");
@@ -133,9 +145,30 @@ namespace Gameplay.MiniGames
             return _miniGamesNames;
         }
 
-        public async Task HandleAuthSuccess(AuthResult result)
+        private async Task<bool> ValidateAddressables(List<string> names)
         {
-            await GetMiniGames();
+            var resourceLocations = await Addressables.LoadResourceLocationsAsync(names);
+
+            return resourceLocations.All(location => names.Contains(location.PrimaryKey));
         }
+
+        public Task HandleExitLobbyRequest()
+        {
+            TryUnloadCurrent();
+            return Task.CompletedTask;
+        }
+
+        public async Task HandleMiniGameStart()
+        {
+            await LoadNext();
+        }
+        public void Dispose()
+        {
+            EventBus.EventBus.UnsubscribeFromEvent<IAuthSuccessfullySubscriber>(this);
+            EventBus.EventBus.UnsubscribeFromEvent<IEnterLobbySuccessSubscriber>(this);
+            EventBus.EventBus.UnsubscribeFromEvent<IExitLobbyRequestSubscriber>(this);
+            EventBus.EventBus.UnsubscribeFromEvent<IMiniGameStartSubscriber>(this);
+        }
+
     }
 }

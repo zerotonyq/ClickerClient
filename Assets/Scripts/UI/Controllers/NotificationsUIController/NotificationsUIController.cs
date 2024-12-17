@@ -1,31 +1,60 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using UI.Controllers.NotificationsUIController.Config;
+using Loading;
+using UI.Base;
+using UI.Controllers.NotificationsUIController.CanvasContainer;
 using UI.Elements.Tables.Notifications;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using Utils.EventBus.Subscribers.Loading;
+using Utils.EventBus.Subscribers.MenuUI.Auth;
 using Zenject;
 
 namespace UI.Controllers.NotificationsUIController
 {
-    public class NotificationsUIController
+    public class NotificationsUIController :
+        UIController,
+        ILoadingEntity,
+        IInitialLoadingEndedSubscriber,
+        IAuthSuccessfullySubscriber,
+        IDisposable
     {
-        private Canvas _canvas;
-
         private NotificationsTableWindow _notificationsTableWindow;
 
-        [Inject]
-        public async UniTaskVoid Initialize(NotificationsControllerUIConfig config, Transform parent) =>
-            await InstantiateObjects(config, parent);
+        public Action Loaded { get; set; }
 
-        private async Task InstantiateObjects(NotificationsControllerUIConfig config, Transform parent)
+        [Inject]
+        public override async UniTaskVoid Initialize(AssetReferenceGameObject canvasReference, Transform parent)
         {
-            _canvas = (await Addressables.InstantiateAsync(config.canvasReference, parent))
+            EventBus.EventBus.SubscribeToEvent<IAuthSuccessfullySubscriber>(this);
+            EventBus.EventBus.SubscribeToEvent<IInitialLoadingEndedSubscriber>(this);
+
+            Canvas = (await Addressables.InstantiateAsync(canvasReference, parent))
                 .GetComponent<Canvas>();
 
-            _notificationsTableWindow =
-                (await Addressables.InstantiateAsync(config.notificationsTablePrefabReference, _canvas.transform))
-                .GetComponent<NotificationsTableWindow>();
+            var canvasContainer = Canvas.GetComponent<NotificationsUICanvasContainer>();
+
+            _notificationsTableWindow = canvasContainer.notificationsTableWindow;
+            
+            Loaded?.Invoke();
         }
+
+
+        protected override void ToggleVisibility(bool isActive) =>
+            _notificationsTableWindow.gameObject.SetActive(isActive);
+
+        public async Task HandleAuthSuccess(AuthResult result)
+        {
+            //ToggleVisibility(result.Success);
+        }
+
+        public void Dispose()
+        {
+            EventBus.EventBus.UnsubscribeFromEvent<IAuthSuccessfullySubscriber>(this);
+            EventBus.EventBus.UnsubscribeFromEvent<IInitialLoadingEndedSubscriber>(this);
+        }
+
+        public async Task HandleInitialLoadingEnded() => ToggleVisibility(false);
     }
 }

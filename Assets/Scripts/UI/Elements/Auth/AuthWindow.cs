@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 using EventBus.Subscribers.MenuUI.Auth;
 using TMPro;
 using UnityEngine;
+using Utils.EventBus.Subscribers.MenuUI.Auth;
 
-namespace UI.Elements
+namespace UI.Elements.Auth
 {
     [RequireComponent(typeof(Canvas))]
     public class AuthWindow : MonoBehaviour, IAuthSuccessfullySubscriber, IDisposable
@@ -13,14 +14,13 @@ namespace UI.Elements
         [field: SerializeField] public Canvas Canvas { get; private set; }
         [field: SerializeField] public TMP_InputField UsernameInput { get; private set; }
         [field: SerializeField] public TMP_InputField PasswordInput { get; private set; }
-        [field: SerializeField] public TextMeshProUGUI MessageTMP { get; private set; }
         
         [field: SerializeField] public TextMeshProUGUI Header { get; private set; }
         
         [SerializeField] private SimpleAnimatedButton toggleAuthType;
 
         [SerializeField] private SimpleAnimatedButton submitAnimatedButton;
-
+        
         private void OnValidate() => Canvas = GetComponent<Canvas>();
 
         public void Start()
@@ -41,7 +41,6 @@ namespace UI.Elements
         private void ChangeAuthType()
         {
             registrationWindow = !registrationWindow;
-            //submitAnimatedButton = registrationWindow ? "" TODO update text on button
             Header.text = registrationWindow ? "Регистрация" : "Вход";
         }
 
@@ -60,7 +59,7 @@ namespace UI.Elements
             else
             {
                 EventBus.EventBus.RaiseEvent<ISignInRequestedSubscriber>(sub =>
-                    sub.Handle(UsernameInput.text, PasswordInput.text));
+                    sub.HandleSignInRequest(UsernameInput.text, PasswordInput.text));
             }
         }
 
@@ -74,12 +73,6 @@ namespace UI.Elements
             EventBus.EventBus.UnsubscribeFromEvent<IAuthSuccessfullySubscriber>(this);
         }
 
-        public async Task HandleAuthSuccess(AuthResult authResult)
-        {
-            if (authResult.Success)
-                Toggle(false);
-
-            MessageTMP.text = authResult.Message;
-        }
+        public async Task HandleAuthSuccess(AuthResult authResult) => Toggle(!authResult.Success);
     }
 }

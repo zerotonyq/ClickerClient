@@ -12,16 +12,15 @@ namespace UI.Elements.Tables.Notifications
         INotificationRequestSubscriber, IDisposable
     {
         
-        public override async Task Initialize(SimpleTableConfig config)
+        public override async Task Initialize()
         {
-            await base.Initialize(config);
             
             EventBus.EventBus.SubscribeToEvent<INotificationRequestSubscriber>(this);
         }
 
         protected override async Task AddRow(string rowData)
         {
-            var lobbyRow = (await Addressables.InstantiateAsync(Config.rowPrefab, contentTransform))
+            var lobbyRow = (await Addressables.InstantiateAsync(config.rowPrefab, contentTransform))
                 .GetComponent<NotificationTableRow>();
 
             lobbyRow.Initialize(Rows.Count + 1, rowData);

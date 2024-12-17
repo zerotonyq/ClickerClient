@@ -6,6 +6,7 @@ namespace WebRequests.Contracts.MiniGames
     {
         public int Id { get; set; }
         public string? AddressableName { get; set; }
+        
         public int Price { get; set; }
     }
 }

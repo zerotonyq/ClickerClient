@@ -24,7 +24,7 @@ namespace EventBus
             }
         }
 
-        public static void SubscribeToEvent<TSubscriber>(IGlobalSubscriber subscriber)
+        public static void SubscribeToEvent<TSubscriber>(TSubscriber subscriber)
             where TSubscriber : class, IGlobalSubscriber
         {
             if (!Subscribers.ContainsKey(typeof(TSubscriber)))
@@ -38,7 +38,7 @@ namespace EventBus
             subscribers.Add(subscriber);
         }
 
-        public static void UnsubscribeFromEvent<TSubscriber>(IGlobalSubscriber subscriber)
+        public static void UnsubscribeFromEvent<TSubscriber>(TSubscriber subscriber)
             where TSubscriber : class, IGlobalSubscriber
         {
             if (!Subscribers.TryGetValue(typeof(TSubscriber), out List<IGlobalSubscriber> subscribers))

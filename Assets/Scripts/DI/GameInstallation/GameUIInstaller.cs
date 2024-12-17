@@ -1,38 +1,59 @@
-﻿using Controllers.UserAuth;
+﻿using Gameplay.Points;
+using Gameplay.Sprints;
+using Loading;
 using UI.Controllers.AdminUIController;
-using UI.Controllers.AdminUIController.Config;
-using UI.Controllers.GameUIController;
-using UI.Controllers.GameUIController.Config;
+using UI.Controllers.AuthUIController;
+using UI.Controllers.GameTitleUIController;
 using UI.Controllers.LobbiesUIController;
-using UI.Controllers.LobbiesUIController.Config;
 using UI.Controllers.NotificationsUIController;
-using UI.Controllers.NotificationsUIController.Config;
-using UnityEngine;
+using UI.Controllers.PointsUIController;
+using UI.Controllers.SprintUIController;
+using UnityEngine.AddressableAssets;
 using Zenject;
 
 namespace DI.GameInstallation
 {
     public class GameUIInstaller : MonoInstaller
     {
-        [SerializeField] private GameUIConfig gameUIConfig;
-        [SerializeField] private AdminUIConfig adminUiConfig;
-        [SerializeField] private LobbiesControllerUIConfig lobbiesControllerUIConfig;
-        [SerializeField] private NotificationsControllerUIConfig notificationsControllerUIConfig;
+        public AssetReferenceGameObject authCanvas;
+        public AssetReferenceGameObject adminCanvas;
+        public AssetReferenceGameObject lobbiesCanvas;
+        public AssetReferenceGameObject notificationsCanvas;
+        public AssetReferenceGameObject gameTitleCanvas;
+        public AssetReferenceGameObject pointsCanvas;
+        public AssetReferenceGameObject sprintsCanvas;
 
         public override void InstallBindings()
         {
-            Container.BindInstance(gameUIConfig);
-            Container.BindInstance(adminUiConfig);
-            Container.BindInstance(lobbiesControllerUIConfig);
-            Container.BindInstance(notificationsControllerUIConfig);
+            Container.BindInterfacesAndSelfTo<AuthUIController>().AsSingle()
+                .WithArguments(authCanvas, transform)
+                .WhenInjectedInto<LoadingManager>();
             
-            Container.BindExecutionOrder<AuthUIController>(-10);
-            Container.BindExecutionOrder<UserSignInController>(-20);
+            Container.BindInterfacesAndSelfTo<AdminUIController>().AsSingle()
+                .WithArguments(adminCanvas, transform)
+                .WhenInjectedInto<LoadingManager>();
             
-            Container.BindInterfacesAndSelfTo<AuthUIController>().AsSingle().WithArguments(transform).NonLazy();
-            Container.BindInterfacesAndSelfTo<AdminUIController>().AsSingle().WithArguments(transform).NonLazy();
-            Container.BindInterfacesAndSelfTo<LobbiesUIController>().AsSingle().WithArguments(transform).NonLazy();
-            Container.BindInterfacesAndSelfTo<NotificationsUIController>().AsSingle().WithArguments(transform).NonLazy();
+            Container.BindInterfacesAndSelfTo<LobbiesUIController>().AsSingle()
+                .WithArguments(lobbiesCanvas, transform)
+                .WhenInjectedInto<LoadingManager>();
+            
+            Container.BindInterfacesAndSelfTo<NotificationsUIController>().AsSingle()
+                .WithArguments(notificationsCanvas, transform)
+                .WhenInjectedInto<LoadingManager>();
+            
+            Container.BindInterfacesAndSelfTo<GameTitleUIController>().AsSingle()
+                .WithArguments(gameTitleCanvas, transform)
+                .WhenInjectedInto<LoadingManager>();
+            
+            Container.BindInterfacesAndSelfTo<PointsUIController>().AsSingle()
+                .WithArguments(pointsCanvas, transform)
+                .WhenInjectedInto(typeof(LoadingManager), typeof(PointsManager));
+            
+            Container.BindInterfacesAndSelfTo<SprintUIController>().AsSingle()
+                .WithArguments(sprintsCanvas, transform)
+                .WhenInjectedInto(typeof(LoadingManager), typeof(SprintManager));
+
+            Container.BindInterfacesAndSelfTo<LoadingManager>().AsSingle().NonLazy();
         }
     }
 }

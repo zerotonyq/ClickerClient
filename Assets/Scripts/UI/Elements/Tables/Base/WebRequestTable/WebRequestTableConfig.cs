@@ -8,6 +8,5 @@ namespace UI.Elements.Table.Base
     public class WebRequestTableConfig : ScriptableObject
     {
         public AssetReferenceGameObject rowPrefab;
-        public AssetReferenceGameObject closeWindowButtonPrefab;
     }
 }

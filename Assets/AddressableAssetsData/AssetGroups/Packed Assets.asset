@@ -15,18 +15,38 @@ MonoBehaviour:
   m_GroupName: Packed Assets
   m_GUID: 5a68d63a8a85b3441af61e4ca9331f71
   m_SerializeEntries:
+  - m_GUID: 238df561137ce1b4cb456de381782c3f
+    m_Address: usersWindow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 23d82c22dfcc7c54c804059a4e8db772
+    m_Address: leaguesOpenButton
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2c1fdaa625bfc404682a0252a1c17705
     m_Address: StartGameCanvas
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 749ea71b9ed773a40a061fab8cc17edf
-    m_Address: StartButton
+  - m_GUID: 690616cca9c6dfe4c933c73db39bb345
+    m_Address: notificationsWindow
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 76a8238af60c0bd46b03dd4c54029654
-    m_Address: GameCanvas
+  - m_GUID: 6c8c403e4542f7f4fb1d1f4498c61892
+    m_Address: leaguesWindow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7a9543f8a99036149b35adb0f2af93f6
+    m_Address: UserLobbiesRow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 850dcc31bb9281a48aa94737a52dbaf9
+    m_Address: NotificationsRow
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -35,18 +55,38 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b7b748dc3f98b864484dd73dd6ce0023
+    m_Address: AuthCanvas
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bb9ab003bdbc41d4cb97725d694de559
+    m_Address: lobbiesWindow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bfd3f0e263e2629499d1e8d3b21e2d27
+    m_Address: Row
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c02a2338256ab754d9dc836e914eef2b
     m_Address: SimpleClickerMiniGame
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: dd4995bfef791a041bc2072fd81bd793
-    m_Address: AuthCanvas
+  - m_GUID: e79fd25419dda9940a3597f103f5c0d2
+    m_Address: UsernameText
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e79fd25419dda9940a3597f103f5c0d2
-    m_Address: UsernameText
+  - m_GUID: ee4b11d9a97a13a47bcbea164619d4ce
+    m_Address: miniGamesWindow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f3fc10fbdcbd8ac4ca4ea9c4fc321cc3
+    m_Address: leaguesExitButton
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

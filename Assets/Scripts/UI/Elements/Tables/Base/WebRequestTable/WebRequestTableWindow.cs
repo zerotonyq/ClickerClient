@@ -1,52 +1,61 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using EventBus.Subscribers.GameUI;
 using UI.Elements.Table.Base;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Serialization;
 
 namespace UI.Elements.Tables.Base
 {
-    public abstract class WebRequestTableWindow : MonoBehaviour
+    public abstract class WebRequestTableWindow<T> : MonoBehaviour
     {
-        protected readonly List<Row<int>> Rows = new();
+        protected readonly List<Row<T>> Rows = new();
         
-        protected WebRequestTableConfig Config;
+        [SerializeField] protected WebRequestTableConfig config;
 
-        private SimpleAnimatedButton _closeButton;
+        [SerializeField] private SimpleAnimatedButton closeButton;
         
         [SerializeField] protected Transform contentTransform;
+
+        [SerializeField] protected bool isAdmin;
         public abstract string Url { get; set; } 
 
-        public async Task Initialize(WebRequestTableConfig config)
+        public virtual void Initialize()
         {
-            Config = config;
-
-            _closeButton = (await Addressables.InstantiateAsync(Config.closeWindowButtonPrefab, transform))
-                .GetComponent<SimpleAnimatedButton>();
-            
-            _closeButton.OnClick.AddListener(Deactivate);
+            closeButton.OnClick.AddListener(() =>
+            {
+                Deactivate();
+                EventBus.EventBus.RaiseEvent<IMainScreenRequestSubscriber>(sub => sub.HandleMainScreenRequest());
+            });
             
             Deactivate();
         }
 
-        private void Deactivate()
+        public virtual void Deactivate()
         {
-            var task = Task.Run(() =>
+            StartCoroutine(DestroyRowsCoroutine());
+        }
+
+        private IEnumerator DestroyRowsCoroutine()
+        {
+            foreach (var row in Rows)
             {
-
-                foreach (var row in Rows)
-                {
-                    Destroy(row);
-                }
-            });
-
-            task.Wait();
+                Addressables.ReleaseInstance(row.gameObject);
+                yield return new WaitForSeconds(0.2f);
+            }
             
             Rows.Clear();
-            
             gameObject.SetActive(false);
+        }
+
+        public virtual void DestroyRow(Row<T> row)
+        {
+            Addressables.ReleaseInstance(row.gameObject);
+            Rows.Remove(row);
         }
 
         protected abstract Task GetRows();

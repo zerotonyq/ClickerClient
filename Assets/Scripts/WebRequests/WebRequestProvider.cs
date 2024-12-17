@@ -3,7 +3,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using EventBus.Auth;
 using EventBus.Subscribers.Notifications;
 using JetBrains.Annotations;
 using JwtTokens;
@@ -11,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using UnityEngine;
 using UnityEngine.Networking;
+using Utils.EventBus.Subscribers.MenuUI.Auth;
 using WebRequests.Contracts.Base;
 using WebRequests.Contracts.RenewToken;
 
@@ -45,10 +45,7 @@ namespace WebRequests
             var sentRequest = await Send(webRequest);
 
             if (sentRequest.responseCode == 200)
-            {
-                Debug.Log(sentRequest.downloadHandler.text);
                 return JsonConvert.DeserializeObject<TRes>(sentRequest.downloadHandler.text, SerializerSettings);
-            }
 
             if (secondRetry)
             {
@@ -66,7 +63,7 @@ namespace WebRequests
             if (string.IsNullOrEmpty(JwtTokenProvider.RefreshToken) ||
                 !JwtTokenProvider.CheckValidExpires(JwtTokenProvider.RefreshToken))
             {
-                EventBus.EventBus.RaiseEvent<IAuthUIRequestedSubscriber>(sub => sub.Handle());
+                EventBus.EventBus.RaiseEvent<IAuthUIRequestedSubscriber>(sub => sub.HandleAuthUIRequest());
                 JwtTokenProvider.RemoveTokens();
                 return;
             }
@@ -83,7 +80,7 @@ namespace WebRequests
             if (renewResponse == null)
             {
                 Debug.Log("something went wrong with recieving new tokens");
-                EventBus.EventBus.RaiseEvent<IAuthUIRequestedSubscriber>(sub => sub.Handle());
+                EventBus.EventBus.RaiseEvent<IAuthUIRequestedSubscriber>(sub => sub.HandleAuthUIRequest());
                 JwtTokenProvider.RemoveTokens();
                 return;
             }
@@ -105,6 +102,10 @@ namespace WebRequests
             catch (UnityWebRequestException e)
             {
                 Debug.LogError("send error" + e.Message + " \n" + e.StackTrace);
+                
+                /*
+                if(e.UnityWebRequest.responseCode == 401)
+                    EventBus.EventBus.RaiseEvent<IAuthUIRequestedSubscriber>(sub => sub.HandleAuthUIRequest());*/
                 
                 EventBus.EventBus.RaiseEvent<INotificationRequestSubscriber>(sub =>
                     sub.HandleNotificationRequest(e.Message));

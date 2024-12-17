@@ -13,6 +13,7 @@ namespace Gameplay.MiniGames.SimpleClicker
         {
             clickButton.OnClick.AddListener(Process);
             _canvas.worldCamera = Camera.main;
+            _canvas.planeDistance = 10;
             SetState(MiniGameState.Ready);
         }
 

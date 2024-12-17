@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using UI.Elements.Table.Base;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UI.Elements.Tables.Base.SimpleTable
 {
@@ -11,12 +12,12 @@ namespace UI.Elements.Tables.Base.SimpleTable
         
         [SerializeField] protected Transform contentTransform;
         
-        protected SimpleTableConfig Config;
+        [SerializeField] protected SimpleTableConfig config;
         
-        public async virtual Task Initialize(SimpleTableConfig config) => Config = config;
+        public abstract Task Initialize();
 
         protected abstract Task AddRow(T rowData);
+
         protected abstract Task RemoveRow(int id);
-       
     }
 }
