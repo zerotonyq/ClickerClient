@@ -28,4 +28,6 @@ public static class ApiPaths
     public const string ADMIN_ADMINMINIGAMES_CREATEMINIGAME = "http://localhost:5000/admin/AdminMiniGames/CreateMiniGame";
     public const string ADMIN_ADMINMINIGAMES_REMOVEMINIGAMEBYID = "http://localhost:5000/admin/AdminMiniGames/RemoveMiniGameById";
     public const string ADMIN_ADMINMINIGAMES_UPDATEMINIGAMEBYID = "http://localhost:5000/admin/AdminMiniGames/UpdateMiniGameById";
+    public const string ADMIN_ADMINUSERS_GETUSERS = "http://localhost:5000/admin/AdminUsers/GetUsers";
+    public const string ADMIN_ADMINUSERS_REMOVEUSERBYID = "http://localhost:5000/admin/AdminUsers/RemoveUserById";
 }

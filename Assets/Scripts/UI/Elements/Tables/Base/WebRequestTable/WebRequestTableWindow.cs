@@ -2,14 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Cysharp.Threading.Tasks;
 using EventBus.Subscribers.GameUI;
 using UI.Elements.Table.Base;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Serialization;
 
-namespace UI.Elements.Tables.Base
+namespace UI.Elements.Tables.Base.WebRequestTable
 {
     public abstract class WebRequestTableWindow<T> : MonoBehaviour
     {
@@ -37,6 +35,9 @@ namespace UI.Elements.Tables.Base
 
         public virtual void Deactivate()
         {
+            if (gameObject.activeSelf == false)
+                return;
+            
             StartCoroutine(DestroyRowsCoroutine());
         }
 
@@ -45,7 +46,7 @@ namespace UI.Elements.Tables.Base
             foreach (var row in Rows)
             {
                 Addressables.ReleaseInstance(row.gameObject);
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.1f);
             }
             
             Rows.Clear();

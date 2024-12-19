@@ -16,8 +16,8 @@ namespace UI.CanvasLayerManagement
     {
         public static Dictionary<Type, int> Layers = new()
         {
-            {typeof(AdminUIController), 0},   
-            {typeof(AuthUIController), 10},   
+            {typeof(AdminUIController), 20},   
+            {typeof(AuthUIController), 1000},   
             {typeof(GameTitleUIController), 0},   
             {typeof(LobbiesUIController), 0},   
             {typeof(NotificationsUIController), 100},

@@ -211,16 +211,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8826235625054458801, guid: 23d82c22dfcc7c54c804059a4e8db772, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2915328908361668798, guid: d59479d66e621cb42a2179b013de081d, type: 3}
+    - target: {fileID: 8826235625054458801, guid: 23d82c22dfcc7c54c804059a4e8db772, type: 3}
       propertyPath: m_Color.b
-      value: 0.021962404
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8826235625054458801, guid: 23d82c22dfcc7c54c804059a4e8db772, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0.10980392
       objectReference: {fileID: 0}
     - target: {fileID: 8826235625054458801, guid: 23d82c22dfcc7c54c804059a4e8db772, type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 0.35686275
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -251,6 +255,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5176524428520735311}
     m_Modifications:
+    - target: {fileID: 1750230420023463465, guid: bb9ab003bdbc41d4cb97725d694de559, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501542329813880210, guid: bb9ab003bdbc41d4cb97725d694de559, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -339,6 +347,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4921670755940105293, guid: bb9ab003bdbc41d4cb97725d694de559, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5735039966889798327, guid: bb9ab003bdbc41d4cb97725d694de559, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -351,12 +363,25 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5735039966889798327, guid: bb9ab003bdbc41d4cb97725d694de559, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5735039966889798327, guid: bb9ab003bdbc41d4cb97725d694de559, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9099712583099634913, guid: bb9ab003bdbc41d4cb97725d694de559, type: 3}
       propertyPath: m_Name
       value: lobbiesWindow
       objectReference: {fileID: 0}
+    - target: {fileID: 9099712583099634913, guid: bb9ab003bdbc41d4cb97725d694de559, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2865724951397953366, guid: bb9ab003bdbc41d4cb97725d694de559, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb9ab003bdbc41d4cb97725d694de559, type: 3}

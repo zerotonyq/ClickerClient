@@ -3,9 +3,11 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UI.Elements.Table.Base;
 using UI.Elements.Tables.Base;
+using UI.Elements.Tables.Base.WebRequestTable;
 using UI.Elements.Tables.Lobbies.Rows;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.UIElements;
 using Utils.EventBus.Subscribers.Lobbies;
 using WebRequests;
 using WebRequests.Contracts.Lobbies;
@@ -59,7 +61,7 @@ namespace UI.Elements.Tables.Lobbies
 
         public async Task HandleDeleteLobbyRequest(LobbiesRowAdmin row)
         {
-            /*var result =
+            var result =
                 await WebRequestProvider.SendJsonRequest<RemoveLobbyByIdRequest, RemoveLobbyByIdResponse>(
                     ApiPaths.ADMIN_ADMINLOBBIES_REMOVELOBBYBYID,
                     new RemoveLobbyByIdRequest()
@@ -71,7 +73,7 @@ namespace UI.Elements.Tables.Lobbies
             {
                 Debug.LogError("Невозможно удалить лобби");
                 return;
-            }*/
+            }
             Debug.Log("ROW WITH ID " + row.ID + " DESTROYED");
             DestroyRow(row);
         }

@@ -23,7 +23,10 @@ using Debug = UnityEngine.Debug;
 
 namespace Gameplay.Sprints
 {
-    public class SprintManager : IEnterLobbySuccessSubscriber, IDisposable
+    public class SprintManager : 
+        IEnterLobbySuccessSubscriber,
+        IExitLobbyRequestSubscriber,
+        IDisposable
     {
         private Stopwatch _sprintStopwatch = new();
         private Stopwatch _miniGameStopwatch = new();
@@ -42,13 +45,18 @@ namespace Gameplay.Sprints
         public void Initialize(SprintUIController sprintUIController)
         {
             EventBus.EventBus.SubscribeToEvent<IEnterLobbySuccessSubscriber>(this);
+            EventBus.EventBus.SubscribeToEvent<IExitLobbyRequestSubscriber>(this);
 
             _sprintUIController = sprintUIController;
 
             _sprintUpdateBehaviour = new GameObject("_updateBehaviour1").AddComponent<UpdateBehaviour>();
         }
 
-        public void Dispose() => EventBus.EventBus.UnsubscribeFromEvent<IEnterLobbySuccessSubscriber>(this);
+        public void Dispose()
+        {
+            EventBus.EventBus.UnsubscribeFromEvent<IEnterLobbySuccessSubscriber>(this);
+            EventBus.EventBus.UnsubscribeFromEvent<IExitLobbyRequestSubscriber>(this);
+        }
 
         public async Task HandleEnterLobby(int lobbyId)
         {
@@ -171,6 +179,11 @@ namespace Gameplay.Sprints
             
             return _currentMiniGameRemainingTimeSeconds;
 
+        }
+
+        public async Task HandleExitLobbyRequest()
+        {
+            await ProcessSprintEnding();
         }
     }
 }

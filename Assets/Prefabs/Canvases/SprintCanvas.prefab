@@ -249,6 +249,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExitButton
       objectReference: {fileID: 0}
+    - target: {fileID: 3392585643620052799, guid: f3fc10fbdcbd8ac4ca4ea9c4fc321cc3, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3392585643620052799, guid: f3fc10fbdcbd8ac4ca4ea9c4fc321cc3, type: 3}
+      propertyPath: m_Color.g
+      value: 0.10980392
+      objectReference: {fileID: 0}
+    - target: {fileID: 3392585643620052799, guid: f3fc10fbdcbd8ac4ca4ea9c4fc321cc3, type: 3}
+      propertyPath: m_Color.r
+      value: 0.35686275
+      objectReference: {fileID: 0}
     - target: {fileID: 3866621960302437643, guid: f3fc10fbdcbd8ac4ca4ea9c4fc321cc3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -275,11 +287,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3866621960302437643, guid: f3fc10fbdcbd8ac4ca4ea9c4fc321cc3, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 3866621960302437643, guid: f3fc10fbdcbd8ac4ca4ea9c4fc321cc3, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 300
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 3866621960302437643, guid: f3fc10fbdcbd8ac4ca4ea9c4fc321cc3, type: 3}
       propertyPath: m_LocalPosition.x

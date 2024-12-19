@@ -84,13 +84,9 @@ namespace Gameplay.MiniGames
 
         private void UpdateCurrentMiniGameIndex()
         {
-            if (_currentMiniGameIndex >= _miniGamesNames.Count || _miniGamesNames.Count == 1)
-            {
-                _currentMiniGameIndex = 0;
-                return;
-            }
-
-            ++_currentMiniGameIndex;
+            _currentMiniGameIndex = (_currentMiniGameIndex + 1 >= _miniGamesNames.Count || _miniGamesNames.Count == 1)
+                ? 0
+                : _currentMiniGameIndex + 1;
         }
 
         public async Task HandleAuthSuccess(AuthResult result)
@@ -162,6 +158,7 @@ namespace Gameplay.MiniGames
         {
             await LoadNext();
         }
+
         public void Dispose()
         {
             EventBus.EventBus.UnsubscribeFromEvent<IAuthSuccessfullySubscriber>(this);
@@ -169,6 +166,5 @@ namespace Gameplay.MiniGames
             EventBus.EventBus.UnsubscribeFromEvent<IExitLobbyRequestSubscriber>(this);
             EventBus.EventBus.UnsubscribeFromEvent<IMiniGameStartSubscriber>(this);
         }
-
     }
 }

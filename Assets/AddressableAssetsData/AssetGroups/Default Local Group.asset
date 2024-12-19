@@ -14,57 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Default Local Group
   m_GUID: 92926c6f3576a624bb42aa8978106644
-  m_SerializeEntries:
-  - m_GUID: 15d32cf25b801164f8aeeafcfe63b0b8
-    m_Address: SprintCanvas
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1cc205a663397714e8c7675b961c067e
-    m_Address: Assets/Prefabs/Tables/Rows/Admin/AdminMiniGamesRow.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 70a2587ae00c8b9498ede83f70ec9c63
-    m_Address: Assets/Prefabs/Tables/Rows/Admin/AdminLobbiesRow.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7c87d01461aadde45ad4d4b8635b492e
-    m_Address: UserPoints
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 97708034adb5c704e926b571edc9014b
-    m_Address: NotificationsCanvas
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b663c41ce0e10b74ca2c1e90e4454169
-    m_Address: Assets/Prefabs/Tables/Rows/Admin/AdminLeaguesRow.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c1ced7c35778f224ca0807cc490eca4b
-    m_Address: LobbiesCanvas
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d38d00785f44c934abdfd59166d2f68a
-    m_Address: AdminCanvas
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d5df631b293635a4cbccbaff01f2cb6b
-    m_Address: Assets/Prefabs/Tables/Rows/Admin/AdminUsersRow.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ec7c48bfecab00746a0603cc627071d0
-    m_Address: PointsCanvas
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 14da9c30708711c4f9f15008de53d093, type: 2}
   m_SchemaSet:

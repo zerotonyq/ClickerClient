@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using EventBus.Subscribers.GameUI;
+using EventBus.Subscribers.Lobbies;
 using EventBus.Subscribers.MenuUI.Auth;
 using EventBus.Subscribers.Roles;
 using Loading;
@@ -12,6 +14,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Utils.DI;
 using Utils.EventBus.Subscribers.Loading;
+using Utils.EventBus.Subscribers.Lobbies;
 using Zenject;
 
 namespace UI.Controllers.AdminUIController
@@ -22,6 +25,10 @@ namespace UI.Controllers.AdminUIController
         IAdminRoleObtainedSubscriber,
         ISignOutObtainedSubscriber,
         IInitialLoadingEndedSubscriber,
+        IEnterLobbySuccessSubscriber,
+        IExitLobbyRequestSubscriber,
+        IGetLobbiesSubscriber,
+        IMainScreenRequestSubscriber,
         IDisposable
     {
         private bool _activated;
@@ -36,6 +43,10 @@ namespace UI.Controllers.AdminUIController
         {
             EventBus.EventBus.SubscribeToEvent<IAdminRoleObtainedSubscriber>(this);
             EventBus.EventBus.SubscribeToEvent<ISignOutObtainedSubscriber>(this);
+            EventBus.EventBus.SubscribeToEvent<IEnterLobbySuccessSubscriber>(this);
+            EventBus.EventBus.SubscribeToEvent<IGetLobbiesSubscriber>(this);
+            EventBus.EventBus.SubscribeToEvent<IMainScreenRequestSubscriber>(this);
+            EventBus.EventBus.SubscribeToEvent<IExitLobbyRequestSubscriber>(this);
 
             Canvas = (await Addressables.InstantiateAsync(canvasReference, parent)).GetComponent<Canvas>();
 
@@ -91,10 +102,10 @@ namespace UI.Controllers.AdminUIController
 
         protected override void ToggleVisibility(bool isActive)
         {
-            _adminUICanvasContainer.leaguesWindow.gameObject.SetActive(false);
-            _adminUICanvasContainer.miniGamesWindow.gameObject.SetActive(false);
-            _adminUICanvasContainer.usersWindow.gameObject.SetActive(false);
-            _adminUICanvasContainer.lobbiesWindow.gameObject.SetActive(false);
+            _adminUICanvasContainer.leaguesWindow.Deactivate();
+            _adminUICanvasContainer.miniGamesWindow.Deactivate();
+            _adminUICanvasContainer.usersWindow.Deactivate();
+            _adminUICanvasContainer.lobbiesWindow.Deactivate();
             
             _adminUICanvasContainer.leaguesWindowOpenButton.gameObject.SetActive(isActive);
             _adminUICanvasContainer.miniGamesWindowOpenButton.gameObject.SetActive(isActive);
@@ -106,6 +117,34 @@ namespace UI.Controllers.AdminUIController
         {
             EventBus.EventBus.UnsubscribeFromEvent<IAdminRoleObtainedSubscriber>(this);
             EventBus.EventBus.UnsubscribeFromEvent<ISignOutObtainedSubscriber>(this);
+            EventBus.EventBus.UnsubscribeFromEvent<IEnterLobbySuccessSubscriber>(this);
+            EventBus.EventBus.UnsubscribeFromEvent<IGetLobbiesSubscriber>(this);
+            EventBus.EventBus.UnsubscribeFromEvent<IMainScreenRequestSubscriber>(this);
+            EventBus.EventBus.UnsubscribeFromEvent<IExitLobbyRequestSubscriber>(this);
+        }
+
+        public Task HandleEnterLobby(int lobbyId)
+        {
+            ToggleVisibility(false);
+            return Task.CompletedTask;
+        }
+
+        public Task HandleGetLobbies()
+        {
+            ToggleVisibility(false);
+            Debug.Log("GET LOBBIES");
+            return Task.CompletedTask;
+        }
+
+        public void HandleMainScreenRequest()
+        {
+            ToggleVisibility(true);
+        }
+
+        public Task HandleExitLobbyRequest()
+        {
+            ToggleVisibility(true);
+            return Task.CompletedTask;
         }
     }
 }

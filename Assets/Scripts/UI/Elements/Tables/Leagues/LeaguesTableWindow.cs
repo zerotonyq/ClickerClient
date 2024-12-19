@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using UI.Elements.Tables.Base;
+using UI.Elements.Tables.Base.WebRequestTable;
 using UI.Elements.Tables.Leagues.Rows;
 using Utils.EventBus.Subscribers.Lobbies;
 using WebRequests.Contracts.Leagues;

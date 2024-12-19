@@ -149,7 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   performPoints: 1
   clickButton: {fileID: 8182530905738475588}
-  _canvas: {fileID: 3824387194871360187}
+  canvas: {fileID: 3824387194871360187}
 --- !u!1001 &3609899407324941372
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -242,6 +242,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8826235625054458801, guid: 23d82c22dfcc7c54c804059a4e8db772, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 7680820834086852892, guid: 08834e4eef9f06a478f2a1d4513fecd7, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

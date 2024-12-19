@@ -57,6 +57,7 @@ namespace UI.Controllers.LobbiesUIController
                 _getLobbiesButton.gameObject.SetActive(false);
                 _lobbiesTableWindow.gameObject.SetActive(true);
                 _lobbiesTableWindow.Activate();
+                EventBus.EventBus.RaiseEvent<IGetLobbiesSubscriber>(sub => sub.HandleGetLobbies());
             });
 
             Loaded?.Invoke();

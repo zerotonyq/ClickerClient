@@ -2,18 +2,19 @@
 using Gameplay.MiniGames.Base;
 using UI.Elements;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Gameplay.MiniGames.SimpleClicker
 {
     public class SimpleClickerMiniGame : MiniGame
     {
-        [SerializeField] private SimpleAnimatedButton clickButton;
-        [SerializeField] private Canvas _canvas;
+        [SerializeField] protected SimpleAnimatedButton clickButton;
+        [SerializeField] protected Canvas canvas;
         protected override async Task PrepareMiniGame()
         {
             clickButton.OnClick.AddListener(Process);
-            _canvas.worldCamera = Camera.main;
-            _canvas.planeDistance = 10;
+            canvas.worldCamera = Camera.main;
+            canvas.planeDistance = 10;
             SetState(MiniGameState.Ready);
         }
 
